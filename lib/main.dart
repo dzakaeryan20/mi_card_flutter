@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -5,95 +7,113 @@ void main() {
 }
 
 
+
 class CircleAvatarWidget extends StatelessWidget {
+  bool isChangeavatar = false;
+
   @override
   Widget build(BuildContext context) {
-    return  CircleAvatar(
-        radius: 50.0,
-        backgroundImage: AssetImage('images/dzaka.jpg')
+    var timer = Timer(Duration(seconds: 5), () => {
+      isChangeavatar = !isChangeavatar,
+      print(isChangeavatar),
+    } );
+
+    // TODO: implement build
+    return AnimatedCrossFade(
+      crossFadeState: !isChangeavatar ? CrossFadeState.showFirst: CrossFadeState.showSecond,
+        duration: const Duration(seconds: 5),
+        firstChild: CircleAvatar(
+            radius: 50.0, backgroundImage: AssetImage('images/dzaka.jpg')
+        ),
+      secondChild: CircleAvatar(
+      radius: 50.0, backgroundImage: AssetImage('images/dname.png')) ,
     );
+
   }
 }
 
-class TextWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return
-    throw UnimplementedError();
-  }
 
-}
+
+
 class MyApp extends StatelessWidget {
+
+  Widget TextInfoWidget(String Type, String name, String font, num size,
+      FontWeight weight, num letter, Color color) {
+    if (Type == "name") {
+      return new Text(name,
+          style: TextStyle(
+            fontFamily: font,
+            fontSize: size,
+            color: color,
+            fontWeight: weight,
+          ));
+    }
+    if (Type == "Jobs") {
+      return new Text(name,
+          style: TextStyle(
+            fontFamily: font,
+            fontSize: size,
+            color: Colors.white,
+            fontWeight: weight,
+            letterSpacing: letter,
+          ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.indigo.shade200,
         body: SafeArea(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircleAvatarWidget(),
-                Text(
-                  'Dzaka Eryan',
-                  style: TextStyle(
-                    fontFamily: 'Pacifico',
-                    fontSize: 40.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CircleAvatarWidget(),
+            TextInfoWidget('name', 'Dzaka Eryan', 'Pacifico', 40.0,
+                FontWeight.bold, null, Colors.white),
+            TextInfoWidget('Jobs', 'Flutter Developer', 'Source Sans Pro', 20.0,
+                FontWeight.bold, 2.5, Colors.teal.shade100),
+            SizedBox(
+              height: 20.0,
+              width: 150.0,
+              child: Divider(
+                color: Colors.teal.shade100,
+              ),
+            ),
+            Card(
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.phone,
+                    color: Colors.teal,
                   ),
-                ),
-                Text(
-                  'FLUTTER DEVELOPER',
-                  style: TextStyle(
-                    fontFamily: 'Source Sans Pro',
-                    color: Colors.teal.shade100,
-                    fontSize: 20.0,
-                    letterSpacing: 2.5,
-                    fontWeight: FontWeight.bold,
+                  title: Text(
+                    '+62 08889297378',
+                    style: TextStyle(
+                      color: Colors.teal.shade900,
+                      fontFamily: 'Source Sans Pro',
+                      fontSize: 20.0,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                  width: 150.0,
-                  child: Divider(
-                    color: Colors.teal.shade100,
+                )),
+            Card(
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.email,
+                    color: Colors.teal,
                   ),
-                ),
-                Card(
-                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.phone,
-                        color: Colors.teal,
-                      ),
-                      title: Text(
-                        '+62 08889297378',
-                        style: TextStyle(
-                          color: Colors.teal.shade900,
-                          fontFamily: 'Source Sans Pro',
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    )),
-                Card(
-                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.email,
-                        color: Colors.teal,
-                      ),
-                      title: Text(
-                        'dzakaeryan20@gmail.com',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.teal.shade900,
-                            fontFamily: 'Source Sans Pro'),
-                      ),
-                    ))
-              ],
-            )),
+                  title: Text(
+                    'dzakaeryan20@gmail.com',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.teal.shade900,
+                        fontFamily: 'Source Sans Pro'),
+                  ),
+                ))
+          ],
+        )),
       ),
     );
   }
