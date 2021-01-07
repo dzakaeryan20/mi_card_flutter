@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 void main() {
   runApp(MyApp());
 }
@@ -11,27 +10,97 @@ void main() {
 class CircleAvatarWidget extends StatelessWidget {
   bool isChangeavatar = false;
 
+  PressCircleButton(String type){
+      if(type == 'first'){
+       isChangeavatar = true;
+      }
+      if (type == 'second') {
+        isChangeavatar = false;
+      }
+  }
   @override
   Widget build(BuildContext context) {
-    var timer = Timer(Duration(seconds: 5), () => {
-      isChangeavatar = !isChangeavatar,
-      print(isChangeavatar),
-    } );
-
     // TODO: implement build
     return AnimatedCrossFade(
       crossFadeState: !isChangeavatar ? CrossFadeState.showFirst: CrossFadeState.showSecond,
-        duration: const Duration(seconds: 5),
-        firstChild: CircleAvatar(
-            radius: 50.0, backgroundImage: AssetImage('images/dzaka.jpg')
+        duration: const Duration(seconds: 2),
+        firstChild: FlatButton(
+          onPressed: (){
+            if(!isChangeavatar){
+              isChangeavatar = true;
+              print(isChangeavatar);
+            }
+            },
+          child: CircleAvatar(
+              radius: 50.0, backgroundImage: AssetImage('images/dzaka.jpg')
+          ),
         ),
-      secondChild: CircleAvatar(
-      radius: 50.0, backgroundImage: AssetImage('images/dname.png')) ,
+      secondChild:  FlatButton(
+        onPressed: (){
+          if(isChangeavatar){
+            isChangeavatar = false;
+            print(isChangeavatar);
+          }
+        },
+        child: CircleAvatar(
+            radius: 50.0, backgroundImage: AssetImage('images/dname.png')),
+      )
     );
 
   }
 }
 
+class CirclePage extends StatefulWidget {
+  @override
+  _CirclePageState createState() => _CirclePageState();
+}
+
+class _CirclePageState extends State<CirclePage> {
+  bool isChangeavatar = false;
+
+  PressCircleButton(String type){
+    if(type == 'first'){
+      isChangeavatar = true;
+    }
+    if (type == 'second') {
+      isChangeavatar = false;
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedCrossFade(
+        crossFadeState: !isChangeavatar ? CrossFadeState.showFirst: CrossFadeState.showSecond,
+        duration: const Duration(seconds: 2),
+        firstChild: FlatButton(
+          onPressed: (){
+            if(!isChangeavatar){
+              setState(() {
+                isChangeavatar = true;
+              });
+
+              print('true $isChangeavatar');
+            }
+          },
+          child: CircleAvatar(
+              radius: 50.0, backgroundImage: AssetImage('images/dzaka.jpg')
+          ),
+        ),
+        secondChild:  FlatButton(
+          onPressed: (){
+            if(isChangeavatar){
+              setState(() {
+                isChangeavatar = false;
+              });
+
+              print(isChangeavatar);
+            }
+          },
+          child: CircleAvatar(
+              radius: 50.0, backgroundImage: AssetImage('images/dname.png')),
+        )
+    );
+  }
+}
 
 
 
@@ -69,7 +138,7 @@ class MyApp extends StatelessWidget {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CircleAvatarWidget(),
+            CirclePage(),
             TextInfoWidget('name', 'Dzaka Eryan', 'Pacifico', 40.0,
                 FontWeight.bold, null, Colors.white),
             TextInfoWidget('Jobs', 'Flutter Developer', 'Source Sans Pro', 20.0,
@@ -81,37 +150,46 @@ class MyApp extends StatelessWidget {
                 color: Colors.teal.shade100,
               ),
             ),
-            Card(
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.phone,
-                    color: Colors.teal,
-                  ),
-                  title: Text(
-                    '+62 08889297378',
-                    style: TextStyle(
-                      color: Colors.teal.shade900,
-                      fontFamily: 'Source Sans Pro',
-                      fontSize: 20.0,
-                    ),
-                  ),
-                )),
-            Card(
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.email,
-                    color: Colors.teal,
-                  ),
-                  title: Text(
-                    'dzakaeryan20@gmail.com',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.teal.shade900,
-                        fontFamily: 'Source Sans Pro'),
-                  ),
-                ))
+            FlatButton(
+                padding: EdgeInsets.all(8.0),
+                onPressed: null,
+                child: Card(
+                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.phone,
+                        color: Colors.teal,
+                      ),
+                      title: Text(
+                        '+62 08889297378',
+                        style: TextStyle(
+                          color: Colors.teal.shade900,
+                          fontFamily: 'Source Sans Pro',
+                          fontSize: 20.0,
+                        ),
+                      ),
+                    )))
+            ,
+            FlatButton(
+                padding: EdgeInsets.all(8.0),
+                onPressed: null,
+                child: Card(
+                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.email,
+                        color: Colors.teal,
+                      ),
+                      title: Text(
+                        'dzakaeryan20@gmail.com',
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.teal.shade900,
+                            fontFamily: 'Source Sans Pro'),
+                      ),
+                    ))
+            )
+
           ],
         )),
       ),
